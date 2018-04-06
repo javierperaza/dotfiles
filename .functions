@@ -197,3 +197,185 @@ function o() {
 function tre() {
 	tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX;
 }
+
+
+# Find a file with a pattern in name:
+function ff() { find . -type f -iname '*'"$*"'*' -ls ; }
+
+# Find a file with pattern $1 in name and Execute $2 on it:
+function fe() { find . -type f -iname '*'"${1:-}"'*' \
+    -exec ${2:-file} {} \;  ; }
+
+#  Find a pattern in a set of files and highlight them:
+#+ (needs a recent version of egrep).
+function fstr() {
+    OPTIND=1
+    local mycase=""
+    local usage="fstr: find string in files.
+    Usage: fstr [-i] \"pattern\" [\"filename pattern\"] "
+    while getopts :it opt
+    do
+        case "$opt" in
+            i) mycase="-i " ;;
+            *) echo "$usage"; return ;;
+        esac
+    done
+    shift $(( $OPTIND - 1 ))
+    if [ "$#" -lt 1 ]; then
+        echo "$usage"
+        return;
+    fi
+    find . -type f -name "${2:-*}" -print0 | \
+        xargs -0 egrep --color=always -sn ${case} "$1" 2>&- | more
+
+}
+
+function smartOpen() {
+  if [[ $(file -b $1 | grep -c "text") == 1 ]]; then
+    atom $1
+  else
+    open $1
+  fi
+}
+alias open=smartOpen
+
+# Swap 2 filenames around, if they exist (from Uzi's bashrc).
+function swap() {
+    [ $# -ne 2 ] && echo "swap: 2 arguments needed" && return 1
+    [ ! -e $1 ] && echo "swap: $1 does not exist" && return 1
+    [ ! -e $2 ] && echo "swap: $2 does not exist" && return 1
+
+    local TMPFILE=$(mktemp)
+    mv "$1" $TMPFILE
+    mv "$2" "$1"
+    mv $TMPFILE "$2"
+}
+
+# Handy Extract Program
+function extract() {
+    if [ -f $1 ] ; then
+        case $1 in
+            *.tar.bz2)   tar xvjf $1     ;;
+            *.tar.gz)    tar xvzf $1     ;;
+            *.bz2)       bunzip2 $1      ;;
+            *.rar)       unrar x $1      ;;
+            *.gz)        gunzip $1       ;;
+            *.tar)       tar xvf $1      ;;
+            *.tbz2)      tar xvjf $1     ;;
+            *.tgz)       tar xvzf $1     ;;
+            *.zip)       unzip $1        ;;
+            *.Z)         uncompress $1   ;;
+            *.7z)        7z x $1         ;;
+            *)           echo "'$1' cannot be extracted via >extract<" ;;
+        esac
+    else
+        echo "'$1' is not a valid file!"
+    fi
+}
+
+# Unzip and pull any parent directory out of the zip
+function unzipStrip() {
+    local zip=$1
+    local dest=${2:-.}
+    local temp=$(mktemp -d)
+    unzip -qq -d "$temp" "$zip"
+    mkdir -p "$dest"
+    shopt -s dotglob
+    local f=("$temp"/*)
+    if (( ${#f[@]} == 1 )) && [[ -d "${f[0]}" ]] ; then
+        mv "$temp"/*/* "$dest"
+    else
+        mv "$temp"/* "$dest"
+    fi
+    rmdir "$temp"/* "$temp"
+}
+
+# Creates an archive (*.tar.gz) from given directory.
+function maketar() { tar cvzf "${1%%/}.tar.gz"  "${1%%/}/"; }
+
+# Create a ZIP archive of a file or folder.
+function makezip() { zip -r "${1%%/}.zip" "$1" ; }
+
+# Make your directories and files access rights sane.
+function sanitize() { chmod -R u=rwX,g=rX,o= "$@" ;}
+
+#-------------------------------------------------------------
+# Process/system related functions:
+#-------------------------------------------------------------
+
+function my_ps() { ps $@ -u $USER -o pid,%cpu,%mem,bsdtime,command ; }
+function pp() { my_ps f | awk '!/awk/ && $0~var' var=${1:-".*"} ; }
+
+#
+# Some people use a different file for functions
+# if [ -f "${HOME}/.bash_functions" ]; then
+#   source "${HOME}/.bash_functions"
+# fi
+#
+# Some example functions:
+#
+# a) function settitle
+# settitle ()
+# {
+#   echo -ne "\e]2;$@\a\e]1;$@\a";
+# }
+#
+# b) function cd_func
+# This function defines a 'cd' replacement function capable of keeping,
+# displaying and accessing history of visited directories, up to 10 entries.
+# To use it, uncomment it, source this file and try 'cd --'.
+# acd_func 1.0.5, 10-nov-2004
+# Petar Marinov, http:/geocities.com/h2428, this is public domain
+cd_func ()
+{
+    local x2 the_new_dir adir index
+    local -i cnt
+
+    if [[ $1 ==  "--" ]]; then
+        dirs -v
+        return 0
+    fi
+
+    the_new_dir=$1
+    [[ -z $1 ]] && the_new_dir=$HOME
+
+    if [[ ${the_new_dir:0:1} == '-' ]]; then
+        #
+        # Extract dir N from dirs
+        index=${the_new_dir:1}
+        [[ -z $index ]] && index=1
+        adir=$(dirs +$index)
+        [[ -z $adir ]] && return 1
+        the_new_dir=$adir
+    fi
+
+    #
+    # '~' has to be substituted by ${HOME}
+    [[ ${the_new_dir:0:1} == '~' ]] && the_new_dir="${HOME}${the_new_dir:1}"
+
+    #
+    # Now change to the new dir and add to the top of the stack
+    pushd "${the_new_dir}" > /dev/null
+    [[ $? -ne 0 ]] && return 1
+    the_new_dir=$(pwd)
+
+    #
+    # Trim down everything beyond 11th entry
+    popd -n +11 2>/dev/null 1>/dev/null
+
+    #
+    # Remove any other occurence of this dir, skipping the top of the stack
+    for ((cnt=1; cnt <= 10; cnt++)); do
+        x2=$(dirs +${cnt} 2>/dev/null)
+        [[ $? -ne 0 ]] && return 0
+        [[ ${x2:0:1} == '~' ]] && x2="${HOME}${x2:1}"
+        if [[ "${x2}" == "${the_new_dir}" ]]; then
+            popd -n +$cnt 2>/dev/null 1>/dev/null
+            cnt=cnt-1
+        fi
+    done
+
+    return 0
+}
+
+alias cd=cd_func

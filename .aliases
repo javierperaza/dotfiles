@@ -1,19 +1,31 @@
 #!/usr/bin/env bash
+alias starwars='telnet towel.blinkenlights.nl'
 
 # Easier navigation: .., ..., ...., ....., ~ and -
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
-alias ~="cd ~" # `cd` is probably faster to type though
-alias -- -="cd -"
 
 # Shortcuts
-alias d="cd ~/Documents/Dropbox"
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
-alias p="cd ~/projects"
 alias g="git"
+
+alias ports='netstat -tulanp'
+
+for s in $(find ~/workspace/* \( -type d -o -type l \) -maxdepth 0 -exec basename {} \;); do alias $s="cd ~/workspace/$s"; done
+
+# Servers
+for s in ds pg pm ss pf pa; do alias $s="server_instance.bash $s"; done
+for s in $(find /ping -type l -maxdepth 1 -exec basename {} \;); do alias $s="server_instance.bash $s"; done
+alias catalina="${CATALINA_HOME}/bin/catalina.sh"
+alias tomcat="${CATALINA_HOME}/bin/catalina.sh"
+alias debugtomcat="${CATALINA_HOME}/bin/catalina.sh jpda start"
+#alias tomcat7="/usr/local/opt/tomcat@7/bin/catalina"
+#alias tomcat8="/usr/local/opt/tomcat@8.0/bin/catalina"
+alias stopall="server_stop_all.bash"
+
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
@@ -24,8 +36,12 @@ else # macOS `ls`
 	export LSCOLORS='BxBxhxDxfxhxhxhxhxcxcx'
 fi
 
+# Use for dark colors
+#export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
+
 # List all files colorized in long format
 alias l="ls -lF ${colorflag}"
+alias ll="ls -alhF ${colorflag}"
 
 # List all files colorized in long format, including dot files
 alias la="ls -laF ${colorflag}"
@@ -135,6 +151,7 @@ command -v grunt > /dev/null && alias grunt="grunt --stack"
 
 # Stuff I never really use but cannot delete either because of http://xkcd.com/530/
 alias stfu="osascript -e 'set volume output muted true'"
+alias safevol="osascript -e 'set volume output volume 25'"
 alias pumpitup="osascript -e 'set volume output volume 100'"
 
 # Kill all the tabs in Chrome to free up memory

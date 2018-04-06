@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-# Make vim the default editor.
-export EDITOR='vim';
+# Make atom the default editor.
+export EDITOR='atom';
 
 # Enable persistent REPL history for `node`.
 export NODE_REPL_HISTORY=~/.node_history;
@@ -17,7 +17,7 @@ export PYTHONIOENCODING='UTF-8';
 export HISTSIZE='32768';
 export HISTFILESIZE="${HISTSIZE}";
 # Omit duplicates and commands that begin with a space from history.
-export HISTCONTROL='ignoreboth';
+#export HISTCONTROL='ignoreboth';
 
 # Prefer US English and use UTF-8.
 export LANG='en_US.UTF-8';
@@ -32,3 +32,19 @@ export MANPAGER='less -X';
 # Avoid issues with `gpg` as installed via Homebrew.
 # https://stackoverflow.com/a/42265848/96656
 export GPG_TTY=$(tty);
+
+
+# My own exports
+export JAVA_HOME=$(/usr/libexec/java_home)
+export HOMEBREW_GITHUB_API_TOKEN="2fecd4b23a34021d3aa71bea825bc9a66ec7f682"
+export M2_HOME="/Users/javierperaza/.m2"
+export MAVEN_HOME=$M2_HOME
+export CATALINA_HOME="/usr/local/opt/tomcat/libexec"
+export JBOSS_HOME="/ping/instances/EAP-7.0.0"
+export PF_HOME="/ping/instances/PingFederate-9.0.1/eula"
+export TIMEFORMAT=$'\nreal %3R\tuser %3U\tsys %3S\tpcpu %P\n'
+export HISTIGNORE=$'[ \t]*:&:[fb]g:exit:ls:ll:h' # Ignore the ls command as well
+export HISTTIMEFORMAT="$(echo -e ${BCyan})[%d/%m %H:%M:%S]$(echo -e ${NC}) "
+export HISTCONTROL=ignoredups
+export HISTIGNORE=$'[ \t]*:&:[fb]g:exit'
+export HOSTFILE=$HOME/.hosts    # Put a list of remote hosts in ~/.hosts

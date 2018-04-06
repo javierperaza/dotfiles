@@ -1,3 +1,9 @@
+USER="$(id -un | tr [A-Z] [a-z])"
+
+umask 027
+# Paranoid: neither group nor others have any perms:
+#umask 077
+
 # Add `~/bin` to the `$PATH`
 export PATH="$HOME/bin:$PATH";
 
@@ -9,14 +15,24 @@ for file in ~/.{path,bash_prompt,exports,aliases,functions,extra}; do
 done;
 unset file;
 
-# Case-insensitive globbing (used in pathname expansion)
-shopt -s nocaseglob;
+ulimit -S -c 0      # Don't want coredumps.
 
-# Append to the Bash history file, rather than overwriting it
-shopt -s histappend;
+# Enable options:
+shopt -s cdable_vars
+shopt -s cdspell
+shopt -s checkhash
+shopt -s checkwinsize
+shopt -s cmdhist
+#shopt -s dirspell
+shopt -s extglob       # Necessary for programmable completion.
+shopt -s histappend histreedit histverify
+shopt -s no_empty_cmd_completion
+shopt -s nocaseglob
+shopt -s sourcepath
 
-# Autocorrect typos in path names when using `cd`
-shopt -s cdspell;
+# Disable options:
+shopt -u mailwarn
+unset MAILCHECK        # Don't want my shell to warn me of incoming mail.
 
 # Enable some Bash 4 features when possible:
 # * `autocd`, e.g. `**/qux` will enter `./foo/bar/baz/qux`
