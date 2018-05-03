@@ -93,5 +93,22 @@ brew install tree
 brew install vbindiff
 brew install zopfli
 
+# other
+brew cask install keepassxc
+brew install aspell
+brew install dos2unix
+brew install fcrackzip
+brew install maven
+brew install mysql
+brew install openssl
+brew install perl
+#brew install php
+brew install python
+brew install readline
+brew install sqlite
+brew install telnet
+brew install tomcat
+brew install wget
+
 # Remove outdated versions from the cellar.
 brew cleanup
