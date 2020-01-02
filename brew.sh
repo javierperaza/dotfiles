@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 # Install command-line tools using Homebrew.
 
@@ -50,30 +51,30 @@ brew install sfnt2woff-zopfli
 brew install woff2
 
 # Install some CTF tools; see https://github.com/ctfs/write-ups.
-brew install aircrack-ng
-brew install bfg
-brew install binutils
-brew install binwalk
-brew install cifer
-brew install dex2jar
-brew install dns2tcp
-brew install fcrackzip
-brew install foremost
-brew install hashpump
-brew install hydra
-brew install john
-brew install knock
-brew install netpbm
-brew install nmap
-brew install pngcheck
-brew install socat
-brew install sqlmap
-brew install tcpflow
-brew install tcpreplay
-brew install tcptrace
-brew install ucspi-tcp # `tcpserver` etc.
-brew install xpdf
-brew install xz
+#brew install aircrack-ng
+#brew install bfg
+#brew install binutils
+#brew install binwalk
+#brew install cifer
+#brew install dex2jar
+#brew install dns2tcp
+#brew install fcrackzip
+#brew install foremost
+#brew install hashpump
+#brew install hydra
+#brew install john
+#brew install knock
+#brew install netpbm
+#brew install nmap
+#brew install pngcheck
+#brew install socat
+#brew install sqlmap
+#brew install tcpflow
+#brew install tcpreplay
+#brew install tcptrace
+#brew install ucspi-tcp # `tcpserver` etc.
+#brew install xpdf
+#brew install xz
 
 # Install other useful binaries.
 brew install ack
@@ -94,7 +95,10 @@ brew install vbindiff
 brew install zopfli
 
 # other
-brew cask install keepassxc
+# brew cask install keepassxc
+brew cask install apache-directory-studio
+brew cask install minikube
+brew cask install postman
 brew install aspell
 brew install dos2unix
 brew install fcrackzip
@@ -109,6 +113,84 @@ brew install sqlite
 brew install telnet
 brew install tomcat
 brew install wget
+
+brew install adns
+brew install apr
+brew install apr-util
+brew install bash-completion
+brew install freetds
+brew install freetype
+brew install gcc
+brew install gdbm
+brew install gettext
+brew install glib
+brew install gmp
+brew install gnutls
+brew install helm
+brew install icu4c
+brew install ilmbase
+brew install isl
+brew install jasper
+brew install jpeg
+brew install kubernetes-cli
+brew install kubernetes-helm
+brew install ldns
+brew install libassuan
+brew install libde265
+brew install libdnet
+brew install libevent
+brew install libffi
+brew install libgcrypt
+brew install libgpg-error
+brew install libheif
+brew install libidn2
+brew install libksba
+brew install libmpc
+brew install libomp
+brew install libpng
+brew install libpq
+brew install libssh
+brew install libtasn1
+brew install libtiff
+brew install libtool
+brew install libunistring
+brew install libusb
+brew install libyaml
+brew install libzip
+brew install little-cms2
+brew install lz4
+brew install lzo
+brew install mcrypt
+brew install mhash
+brew install minikube
+brew install mpfr
+brew install msodbcsql17
+brew install mssql-tools
+brew install mysql-client
+brew install nettle
+brew install npth
+brew install openexr
+brew install openjpeg
+brew install openvpn
+brew install p11-kit
+brew install pcre
+brew install pcre2
+brew install php@5.6
+brew install pinentry
+brew install pkcs11-helper
+brew install pkg-config
+brew install pmd
+brew install python@2
+brew install qt
+brew install ruby
+brew install shared-mime-info
+brew install spotbugs
+brew install ssdeep
+brew install toxiproxy
+brew install unbound
+brew install unixodbc
+brew install webp
+brew install x265
 
 # Remove outdated versions from the cellar.
 brew cleanup
