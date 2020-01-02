@@ -1,11 +1,11 @@
 USER="$(id -un | tr [A-Z] [a-z])"
 
-umask 027
+umask 0022
 # Paranoid: neither group nor others have any perms:
 #umask 077
 
 # Add `~/bin` to the `$PATH`
-export PATH="$HOME/bin:$PATH";
+export PATH="$HOME/bin:$(brew --prefix coreutils)/libexec/gnubin:$PATH";
 
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.

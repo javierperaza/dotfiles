@@ -1,3 +1,7 @@
+[user]
+	name = Javier Peraza
+	email = javierperaza@pingidentity.com
+
 [alias]
 
 	# View abbreviated SHA, description, and history graph of the latest 20 commits
@@ -19,7 +23,8 @@
 	c = clone --recursive
 
 	# Commit all changes
-	ca = !git add -A && git commit -av -m \"$1\"
+	ca = !sh -c 'git add -A && git commit -m \"$1\"' -
+	#ca = !git add -A && git commit -av -m \"$1\"
 
 	# Switch to a branch, creating it if necessary
 	go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
@@ -137,7 +142,7 @@
 [commit]
 
 	# https://help.github.com/articles/signing-commits-using-gpg/
-	gpgsign = true
+	#gpgsign = true
 
 [diff]
 
@@ -167,23 +172,24 @@
 	followTags = true
 
 # URL shorthands
+#[url "git@github.com:"]
+#	insteadOf = "gh:"
+#	pushInsteadOf = "github:"
+#	pushInsteadOf = "git://github.com/"
 
-[url "git@github.com:"]
+#[url "git://github.com/"]
+# insteadOf = "github:"
 
-	insteadOf = "gh:"
-	pushInsteadOf = "github:"
-	pushInsteadOf = "git://github.com/"
+#[url "git@gist.github.com:"]
+# insteadOf = "gst:"
+#	pushInsteadOf = "gist:"
+#	pushInsteadOf = "git://gist.github.com/"
+#
+#[url "git://gist.github.com/"]
+#	insteadOf = "gist:"
 
-[url "git://github.com/"]
-
-	insteadOf = "github:"
-
-[url "git@gist.github.com:"]
-
-	insteadOf = "gst:"
-	pushInsteadOf = "gist:"
-	pushInsteadOf = "git://gist.github.com/"
-
-[url "git://gist.github.com/"]
-
-	insteadOf = "gist:"
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f

@@ -12,6 +12,11 @@ alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias g="git"
 
+#alias setJava8="export PATH=${JAVA_HOME_8}/bin:${PATH}; export JAVA_HOME=${JAVA_HOME_8}"
+#alias setJava11="export PATH=${JAVA_HOME_11}/bin:${PATH}; export JAVA_HOME=${JAVA_HOME_11}"
+alias setJava8="export JAVA_HOME=${JAVA_HOME_8}"
+alias setJava11="export JAVA_HOME=${JAVA_HOME_11}"
+
 alias ports='netstat -tulanp'
 
 for s in $(find ~/workspace/* \( -type d -o -type l \) -maxdepth 0 -exec basename {} \;); do alias $s="cd ~/workspace/$s"; done
@@ -166,3 +171,7 @@ alias reload="exec ${SHELL} -l"
 
 # Print each PATH entry on a separate line
 alias path='echo -e ${PATH//:/\\n}'
+
+alias gitrmignored='git rm -r --cached . && git add . && git ca "Removed ignored files" && git push origin master'
+alias gitstatus="~/workspace/projects/multi-git-status/mgitstatus"
+alias gitforcepull="git fetch --all && git reset --hard origin/master"
